@@ -31,7 +31,7 @@ class TCPHandler:
 
             buffer_size = self.config.buffer_size
             remaining = file_size
-            # the data itself doesnt matter so use the byte define in the config file
+            # the data itself doesn't matter so use the byte define in the config file
             dummy_chunk = self.config.dummy_bit * buffer_size
 
             # sending in chinks in order not to exceed the buffer size

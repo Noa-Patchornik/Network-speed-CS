@@ -11,28 +11,16 @@ colorama.init()
 class Colors:
 
     def __init__(self):
-        # Server status colors
-        self.SERVER_STATUS = Fore.MAGENTA
-
-        self.CLIENT_STATUS = Fore.CYAN
-
-        # Message types
-        self.INFO = Fore.MAGENTA
-        self.SUCCESS = Fore.GREEN
-        self.ERROR = Fore.RED
+        # Server status
+        self.SERVER_STATUS = Fore.BLUE + Style.BRIGHT
+        # Client status
+        self.CLIENT_STATUS = Fore.MAGENTA + Style.BRIGHT
+        # User Input
+        self.USER_INPUT = Back.BLACK + Fore.CYAN + Style.BRIGHT
 
         # Transfer status
-        self.TCP_TRANSFER = Fore.BLUE
-        self.UDP_TRANSFER = Fore.CYAN
-
-        # Statistics
-        self.STATS = Fore.YELLOW
-
-        # Values/Numbers
-        self.VALUES = Fore.WHITE
-
-        # Highlights
-        self.HIGHLIGHT = Back.BLUE + Fore.WHITE
+        self.TCP_TRANSFER = Fore.LIGHTGREEN_EX
+        self.UDP_TRANSFER = Fore.LIGHTCYAN_EX
 
         # Reset
         self.RESET = Style.RESET_ALL
@@ -43,17 +31,21 @@ class Colors:
 
     @staticmethod
     def format_success(message):
-        return f"{Fore.GREEN}{message}{Style.RESET_ALL}"
+        return f"{Back.BLACK}{message}{Style.RESET_ALL}\n"
+
+    @staticmethod
+    def format_success_connection(message):
+        return f"{Back.WHITE+Fore.BLACK}{message}{Style.RESET_ALL}\n"
 
     @staticmethod
     def format_tcp_transfer(transfer_num, duration, speed):
-        return (f"{Fore.BLUE}TCP transfer #{Fore.YELLOW}{transfer_num}{Fore.BLUE} finished, "
-                f"total time: {Fore.YELLOW}{duration:.2f}{Fore.BLUE} seconds, "
-                f"total speed: {Fore.YELLOW}{speed:.1f}{Fore.BLUE} bits/second{Style.RESET_ALL}")
+        return (f"{Fore.LIGHTGREEN_EX}TCP transfer #{Fore.BLACK + Back.GREEN}{transfer_num}{Style.RESET_ALL}{Fore.LIGHTGREEN_EX}, "
+                f"total time: {Fore.BLACK + Back.GREEN}{duration:.2f}{Style.RESET_ALL}{Fore.LIGHTGREEN_EX} seconds, "
+                f"total speed: {Fore.BLACK + Back.GREEN}{speed:.1f}{Style.RESET_ALL}{Fore.LIGHTGREEN_EX} bits/second{Style.RESET_ALL}\n")
 
     @staticmethod
     def format_udp_transfer(transfer_num, duration, speed, success_rate):
-        return (f"{Fore.MAGENTA}UDP transfer #{Fore.YELLOW}{transfer_num}{Fore.MAGENTA} finished, "
-                f"total time: {Fore.YELLOW}{duration:.2f}{Fore.MAGENTA} seconds, "
-                f"total speed: {Fore.YELLOW}{speed:.1f}{Fore.MAGENTA} bits/second, "
-                f"percentage of packets received successfully: {Fore.YELLOW}{success_rate:.0f}%{Style.RESET_ALL}")
+        return (f"{Fore.LIGHTCYAN_EX}UDP transfer #{Back.LIGHTCYAN_EX +Fore.BLACK}{transfer_num}{Style.RESET_ALL}{Fore.LIGHTCYAN_EX} finished, "
+                f"total time: {Back.LIGHTCYAN_EX +Fore.BLACK}{duration:.2f}{Style.RESET_ALL}{Fore.LIGHTCYAN_EX} seconds, "
+                f"total speed: {Back.LIGHTCYAN_EX +Fore.BLACK}{speed:.1f}{Style.RESET_ALL}{Fore.LIGHTCYAN_EX} bits/second, "
+                f"percentage of packets received successfully: {Back.LIGHTCYAN_EX +Fore.BLACK}{success_rate:.0f}%{Style.RESET_ALL}\n")

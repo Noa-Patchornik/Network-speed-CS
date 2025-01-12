@@ -25,7 +25,7 @@ class OfferBroadcaster:
                 message = self.construct_offer_request()
                 # send it to all client in broadcast form which means = send to all devices on the local network
                 self.udp_socket.sendto(message, ('<broadcast>', self.config.udp_port))
-                # dont do it so fast..
+                # don't do it so fast
                 time.sleep(1)
             except Exception as e:
                 print(self.colors.format_error(f"Error broadcasting offer: {e}\n"))

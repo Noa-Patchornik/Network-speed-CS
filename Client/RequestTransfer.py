@@ -24,11 +24,11 @@ class RequestTransfer:
 
                 # calculate time for later on speed calculation
                 start_time = time.time()
-                # for constructing the recieved data later on
+                # for constructing the received data later on
                 received_data = b''
                 bytes_received = 0
 
-                # recive until no more, but according to the buffer size that in config file
+                # receive until no more, but according to the buffer size that in config file
 
                 while bytes_received < file_size:
                     # in case of remaining less than buffer size bytes
@@ -48,7 +48,7 @@ class RequestTransfer:
                     raise Exception("Failed due to incomplete data transfer")
 
         except Exception as e:
-            print(self.colors.format_error(f"Error in TCP transfer #{transfer_num}: {e}"))
+            print(self.colors.format_error(f"Error in TCP transfer #{transfer_num}: {e}\n"+self.colors.RESET))
 
     def udp_transfer(self, server_ip, udp_port, file_size, transfer_num):
         """
@@ -69,7 +69,7 @@ class RequestTransfer:
 
                 s.settimeout(0.1)
 
-                # handling reciving data form server
+                # handling receiving data form server
                 while True:
                     try:
                         data, _ = s.recvfrom(self.config.buffer_size)
@@ -83,7 +83,8 @@ class RequestTransfer:
 
                         if total_segments is None:
                             total_segments = total_segs
-                            print(self.colors.INFO + f"Expecting {total_segments} segments\n" + self.colors.RESET)
+                            print(f"Expecting {total_segments} segments\n")
+                            # print(self.colors.INFO + f"Expecting {total_segments} segments\n" + self.colors.RESET)
 
                         received_segments.add(seg_num)
                         # printing every 100 segemnts to console for indicating the process
@@ -100,7 +101,7 @@ class RequestTransfer:
                             break
                         continue
                     except Exception as e:
-                        print(self.colors.format_error(f"Error receiving packet: {e}\n"))
+                        print(self.colors.format_error(f"Error receiving packet: {e}\n"+self.colors.RESET))
                         continue
 
                 duration = max(time.time() - start_time, 0.001)
@@ -110,7 +111,7 @@ class RequestTransfer:
                 print(self.colors.format_udp_transfer(transfer_num, duration, speed, success_rate))
 
         except Exception as e:
-            print(self.colors.format_error(f"Error in UDP transfer #{transfer_num}: {e}\n"))
+            print(self.colors.format_error(f"Error in UDP transfer #{transfer_num}: {e}\n"+self.colors.RESET))
 
     def construct_request_msg(self, file_size):
         """
@@ -144,11 +145,11 @@ class RequestTransfer:
         # checks length
         received_size = len(data)
         if received_size != file_size:
-            print(self.colors.format_error("Error: Received {received_size} bytes, expected {file_size}\n"))
+            print(self.colors.format_error("Error: Received {received_size} bytes, expected {file_size}\n"+self.colors.RESET))
             return False
         # checks content
         if data != self.config.dummy_bit * file_size:
-            print(self.colors.format_error("Error: Received data doesn't match expected content\n"))
+            print(self.colors.format_error("Error: Received data doesn't match expected content\n"+self.colors.RESET))
             return False
-        # in case of success reciving
+        # in case of success receiving
         return True

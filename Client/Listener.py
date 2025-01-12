@@ -23,20 +23,20 @@ class Listener:
 
             while True:
                 try:
-                    # recive data from server
+                    # receive data from server
                     data, addr = s.recvfrom(self.config.buffer_size)
                     # validate the offer msg, if correctly constructed - return it for sending request later on
                     if len(data) == self.config.offer_len:
                         cookie, msg_type, udp_port, tcp_port = struct.unpack('!IBHH', data)
                         if (cookie == self.config.cookie and
                                 msg_type == self.config.offer_message_type):
-                            print(self.colors.CLIENT_STATUS + f"Received offer from {addr[0]}" + Fore.RESET)
+                            print(self.colors.CLIENT_STATUS + f"Received offer from {addr[0]}\n" + self.colors.RESET)
                             return addr[0], udp_port, tcp_port
                     else:
                         print(self.colors.format_error(
-                            f"Received invalid offer, expected 9 bytes, got {len(data)} bytes."))
+                            f"Received invalid offer, expected 9 bytes, got {len(data)} bytes.\n"+ self.colors.RESET))
                 # in case of errors do:
                 except socket.timeout:
                     continue
                 except Exception as e:
-                    print(self.colors.format_error(f"Error receiving offer: {e}"))
+                    print(self.colors.format_error(f"Error receiving offer: {e}\n"+ self.colors.RESET))

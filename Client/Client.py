@@ -24,9 +24,9 @@ class Client:
         while True:
             try:
                 #asking details from user
-                file_size = int(input("Enter file size (bytes): "))
-                tcp_count = int(input("Enter number of TCP connections: "))
-                udp_count = int(input("Enter number of UDP connections: "))
+                file_size = int(input(f"{self.colors.USER_INPUT}Enter file size (bytes): {self.colors.RESET}\n"))
+                tcp_count = int(input(f"{self.colors.USER_INPUT}Enter number of TCP connections: {self.colors.RESET}\n"))
+                udp_count = int(input(f"{self.colors.USER_INPUT}Enter number of UDP connections: {self.colors.RESET}\n"))
                 # validation of input user
                 if file_size <= 0 or tcp_count < 0 or udp_count < 0:
                     raise ValueError
@@ -34,13 +34,13 @@ class Client:
                 return file_size, tcp_count, udp_count
 
             except ValueError:
-                print(self.colors.format_error("Please enter valid positive numbers"))
+                print(self.colors.format_error("Please enter valid positive numbers\n"+ self.colors.RESET))
 
     def start(self):
         """
         start the client(asking for details, listen for offers and transfer requests and get payload
         """
-        print(self.colors.CLIENT_STATUS + "Client started, listening for offer requests..." + self.colors.RESET)
+        print(self.colors.CLIENT_STATUS + "Client started, listening for offer requests...\n" + self.colors.RESET)
 
         while True:
             # ask user for details
@@ -50,7 +50,7 @@ class Client:
             try:
                 # listen from offers from servers
                 server_info = self.listener.listen_for_offer()
-                # if get an offer correctly
+                # in case of getting an offer correctly
                 if server_info:
                     # transfer the data
                     self.handler.handle_transfers(server_info, file_size, tcp_count, udp_count)
@@ -58,5 +58,5 @@ class Client:
                     print(self.colors.format_success("All transfers complete, listening for offer requests"))
             # in case of failure in transfer
             except Exception as e:
-                print(self.colors.format_error(f"Error during transfer: {e}"))
+                print(self.colors.format_error(f"Error during transfer: {e}\n"+ self.colors.RESET))
 

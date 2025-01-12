@@ -18,13 +18,13 @@ class UDPHandler:
 
     def listen_for_requests(self):
         """Continuously listen for UDP requests"""
-        print("UDP Handler started, listening for requests...")
+        print(f"{self.colors.UDP_TRANSFER}UDP Handler started, listening for requests...\n"+self.colors.RESET)
         while True:
             try:
                 data, client_addr = self.udp_socket.recvfrom(1024)
                  # Valid request
                 if self.valid_request_msg(data):
-                        print(self.colors.UDP_TRANSFER + f"Valid UDP request from {client_addr}\n" + self.colors.RESET)
+                        print(self.colors.format_success_connection(f"Valid UDP request from {client_addr}"))
                         # Handle in separate thread
                         handler_thread = threading.Thread(
                             target=self.handle_request,
@@ -57,7 +57,7 @@ class UDPHandler:
 
                 time.sleep(0.001)  # Small delay to prevent flooding
         except Exception as e:
-            self.colors.format_error((e))
+            self.colors.format_error(e)
 
     def valid_request_msg(self,data):
         """

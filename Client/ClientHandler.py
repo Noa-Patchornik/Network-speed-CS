@@ -37,6 +37,6 @@ class ClientHandler:
             threads.append(t)
             t.start()
 
-        # dont close untill all the threads finished
+        # don't close until all the threads finished
         for t in threads:
             t.join()

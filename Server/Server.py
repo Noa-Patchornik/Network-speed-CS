@@ -57,7 +57,7 @@ class Server:
         """Handles incoming TCP connections."""
         # waits for and accepts a new connection
         client_socket, addr = self.tcp_socket.accept()
-        print(self.colors.TCP_TRANSFER + f"New TCP connection from {addr}" + self.colors.RESET)
+        print(self.colors.format_success_connection(f"New TCP connection from {addr}") )
 
         # because each tcp needs a connection so it will be in a different thread
         handler = TCPHandler(client_socket, addr)
