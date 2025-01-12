@@ -1,7 +1,7 @@
 import threading
-from NetworkCS.Configuration import Configuration
-from NetworkCS.Client.Client import Client
-from NetworkCS.Server.Server import Server
+from Configuration import Configuration
+from Client.Client import Client
+from Server.Server import Server
 
 
 def start_server():

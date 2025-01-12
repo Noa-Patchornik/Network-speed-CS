@@ -2,9 +2,9 @@ import struct
 import threading
 import time
 
-from NetworkCS.Colors import Colors
-from NetworkCS.Configuration import Configuration
-from NetworkCS.Server.PayloadSender import PayloadSender
+from Colors import Colors
+from Configuration import Configuration
+from Server.PayloadSender import PayloadSender
 
 
 class UDPHandler:

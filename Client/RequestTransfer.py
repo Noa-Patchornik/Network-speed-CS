@@ -2,8 +2,8 @@ import socket
 import struct
 import time
 
-from NetworkCS.Colors import Colors
-from NetworkCS.Configuration import Configuration
+from Colors import Colors
+from Configuration import Configuration
 
 
 class RequestTransfer:

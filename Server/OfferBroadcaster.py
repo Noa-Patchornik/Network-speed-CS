@@ -3,8 +3,8 @@ import struct
 import time
 from colorama import Fore
 
-from NetworkCS.Colors import Colors
-from NetworkCS.Configuration import Configuration
+from Colors import Colors
+from Configuration import Configuration
 
 
 class OfferBroadcaster:

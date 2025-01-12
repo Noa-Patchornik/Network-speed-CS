@@ -1,8 +1,8 @@
 import threading
 from colorama import Fore
 
-from NetworkCS.Client.RequestTransfer import RequestTransfer
-from NetworkCS.Configuration import Configuration
+from Client.RequestTransfer import RequestTransfer
+from Configuration import Configuration
 
 
 class ClientHandler:

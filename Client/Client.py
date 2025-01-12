@@ -1,9 +1,9 @@
 from colorama import Fore
 
-from NetworkCS.Client.ClientHandler import ClientHandler
-from NetworkCS.Client.Listener import Listener
-from NetworkCS.Colors import Colors
-from NetworkCS.Configuration import Configuration
+from Client.ClientHandler import ClientHandler
+from Client.Listener import Listener
+from Colors import Colors
+from Configuration import Configuration
 
 
 class Client:

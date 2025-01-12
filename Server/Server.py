@@ -1,10 +1,10 @@
 import socket
 import threading
-from NetworkCS.Colors import Colors
-from NetworkCS.Configuration import Configuration
-from NetworkCS.Server.TCPHandler import TCPHandler
-from NetworkCS.Server.OfferBroadcaster import OfferBroadcaster
-from NetworkCS.Server.UDPHandler import UDPHandler
+from Colors import Colors
+from Configuration import Configuration
+from Server.TCPHandler import TCPHandler
+from Server.OfferBroadcaster import OfferBroadcaster
+from Server.UDPHandler import UDPHandler
 
 
 class Server:
