@@ -1,14 +1,19 @@
-# NetworkCS/Colors.py
+
 from colorama import Fore, Back, Style
 import colorama
 
 colorama.init()
 
+# Fore: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA (purple), CYAN (Turquoise), WHITE, RESET.
+# Back: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
+
+
 class Colors:
 
     def __init__(self):
         # Server status colors
-        self.SERVER_STATUS = Fore.GREEN
+        self.SERVER_STATUS = Fore.MAGENTA
+
         self.CLIENT_STATUS = Fore.CYAN
 
         # Message types
@@ -21,10 +26,10 @@ class Colors:
         self.UDP_TRANSFER = Fore.CYAN
 
         # Statistics
-        self.STATS = Fore.WHITE
+        self.STATS = Fore.YELLOW
 
         # Values/Numbers
-        self.VALUES = Fore.YELLOW
+        self.VALUES = Fore.WHITE
 
         # Highlights
         self.HIGHLIGHT = Back.BLUE + Fore.WHITE

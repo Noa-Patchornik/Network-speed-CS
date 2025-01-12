@@ -31,8 +31,8 @@ class Server:
         """
         start the server activity
         """
-        print(
-            self.colors.SERVER_STATUS + f"Server started, listening on IP address {self.server_ip}" + self.colors.RESET)
+        print(self.colors.SERVER_STATUS + f"Server started, listening on IP address {self.server_ip}"
+              + self.colors.RESET)
         self.tcp_socket.listen(5)
 
         # start broadcast thread for sending offers to clients
