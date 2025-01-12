@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 from Colors import Colors
 from Configuration import Configuration
 from Server.TCPHandler import TCPHandler
@@ -31,8 +32,8 @@ class Server:
         """
         start the server activity
         """
-        print(self.colors.SERVER_STATUS + f"Server started, listening on IP address {self.server_ip}"
-              + self.colors.RESET)
+        print(self.colors.SERVER_STATUS + f"Server started, listening on IP address {self.server_ip}" + self.colors.RESET)
+
         self.tcp_socket.listen(5)
 
         # start broadcast thread for sending offers to clients
@@ -40,6 +41,7 @@ class Server:
         broadcast_thread = threading.Thread(target=broadcast_offer.broadcast)
         broadcast_thread.daemon = True
         broadcast_thread.start()
+        time.sleep(1)
 
         # one handler process all incoming UDP packets no connections needed
         udp_handler = UDPHandler(self.udp_socket)
@@ -54,12 +56,13 @@ class Server:
                 print(self.colors.format_error(f"Error handling connections: {e}"))
 
     def _handle_tcp_connections(self):
-        """Handles incoming TCP connections."""
+        """Handles incoming TCP connections"""
         # waits for and accepts a new connection
         client_socket, addr = self.tcp_socket.accept()
+        # update the user that the TCP connection succeeded
         print(self.colors.format_success_connection(f"New TCP connection from {addr}") )
 
-        # because each tcp needs a connection so it will be in a different thread
+        # open thread for each TCP connection and start them
         handler = TCPHandler(client_socket, addr)
         handler_thread = threading.Thread(target=handler.handle)
         handler_thread.daemon = True
