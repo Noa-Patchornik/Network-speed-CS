@@ -41,10 +41,9 @@ class Client:
         start the client(asking for details, listen for offers and transfer requests and get payload
         """
         print(self.colors.CLIENT_STATUS + "Client started, listening for offer requests...\n" + self.colors.RESET)
-
+        # ask user for details
+        file_size, tcp_count, udp_count = self.get_user_input()
         while True:
-            # ask user for details
-            file_size, tcp_count, udp_count = self.get_user_input()
 
             # transfer operations
             try:
