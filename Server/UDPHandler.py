@@ -20,6 +20,7 @@ class UDPHandler:
 
         while True:
             print(f"{self.colors.UDP_TRANSFER}UDP Handler started, listening for requests...\n" + self.colors.RESET)
+
             try:
                 # receive the data from the client
                 data, client_addr = self.udp_socket.recvfrom(1024)

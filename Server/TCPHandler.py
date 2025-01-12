@@ -34,7 +34,7 @@ class TCPHandler:
             # the data itself doesn't matter so use the byte define in the config file
             dummy_chunk = self.config.dummy_bit * buffer_size
 
-            # sending in chinks in order not to exceed the buffer size
+            # sending in chunks in order not to exceed the buffer size
             while remaining > 0:
                 chunk_size = min(buffer_size, remaining)
                 if chunk_size == buffer_size:
@@ -42,7 +42,7 @@ class TCPHandler:
                 else:
                     self.client_socket.send(self.config.dummy_bit * chunk_size)
                 remaining -= chunk_size
-
+            # update the client that the transfer completed
             print(self.colors.TCP_TRANSFER + f"TCP transfer complete for {self.addr}\n" + self.colors.RESET)
         except Exception as e:
             print(self.colors.format_error(f"Error handling client {self.addr}: {e}\n"))
