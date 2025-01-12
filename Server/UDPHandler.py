@@ -1,7 +1,6 @@
 import struct
 import threading
 import time
-
 from Colors import Colors
 from Configuration import Configuration
 from Server.PayloadSender import PayloadSender

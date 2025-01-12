@@ -84,10 +84,10 @@ class RequestTransfer:
                         if total_segments is None:
                             total_segments = total_segs
                             print(f"Expecting {total_segments} segments\n")
-                            # print(self.colors.INFO + f"Expecting {total_segments} segments\n" + self.colors.RESET)
+
 
                         received_segments.add(seg_num)
-                        # printing every 100 segemnts to console for indicating the process
+                        # printing every 100 segements to console for indicating the process
                         if len(received_segments) % 100 == 0:
                             print(self.colors.CLIENT_STATUS +
                                   f"Received {len(received_segments)} unique segments\n" +

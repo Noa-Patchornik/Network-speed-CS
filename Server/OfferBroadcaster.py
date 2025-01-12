@@ -24,6 +24,7 @@ class OfferBroadcaster:
                 # send it to all client in broadcast form which means send to all devices on the local network
                 self.udp_socket.sendto(message, ('<broadcast>', self.config.udp_port))
                 # send offer every second
+                print(f"{self.colors.SERVER_STATUS} Sent offer\n"+self.colors.RESET)
                 time.sleep(1)
             except Exception as e:
                 print(self.colors.format_error(f"Error broadcasting offer: {e}\n"))

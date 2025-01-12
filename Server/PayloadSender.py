@@ -1,6 +1,5 @@
 import struct
 import time
-
 from Colors import Colors
 from Configuration import Configuration
 
