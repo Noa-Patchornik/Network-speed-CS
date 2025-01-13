@@ -19,7 +19,7 @@ class Client:
 
     def get_user_input(self):
         """
-        gets user input as requested in the file
+        gets user input for the file size and the amount of connections from each protocol
         """
         while True:
             try:
@@ -38,12 +38,13 @@ class Client:
 
     def start(self):
         """
-        start the client(asking for details, listen for offers and transfer requests and get payload
+        start the client: asking for details, listen for offers, transfer requests and get payload
         """
 
         # ask user for details
         file_size, tcp_count, udp_count = self.get_user_input()
         while True:
+            # listening for offer requests from the server
             print(self.colors.CLIENT_STATUS + "Client started, listening for offer requests...\n" + self.colors.RESET)
             # transfer operations
             try:
@@ -53,7 +54,7 @@ class Client:
                 if server_info:
                     # transfer the data
                     self.handler.handle_transfers(server_info, file_size, tcp_count, udp_count)
-                    # when finished print iin for logging robust and continue to ask details from user again
+                    # when finished printing for logging robust and continue go back to listen for requests
                     print(self.colors.format_success("All transfers complete, listening for offer requests"))
             # in case of failure in transfer
             except Exception as e:

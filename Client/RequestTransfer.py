@@ -28,7 +28,7 @@ class RequestTransfer:
                 received_data = b''
                 bytes_received = 0
 
-                # receive until no more, but according to the buffer size that in config file
+                # receive until the buffer size in config file
 
                 while bytes_received < file_size:
                     # in case of remaining less than buffer size bytes
@@ -87,7 +87,7 @@ class RequestTransfer:
 
 
                         received_segments.add(seg_num)
-                        # printing every 100 segements to console for indicating the process
+                        # printing every 100 segments to console for indicating the process
                         if len(received_segments) % 100 == 0:
                             print(self.colors.CLIENT_STATUS +
                                   f"Received {len(received_segments)} unique segments\n" +
@@ -120,8 +120,7 @@ class RequestTransfer:
         return struct.pack('!IBQ',
                            self.config.cookie,
                            self.config.request_message_type,
-                           file_size
-                           )
+                           file_size )
 
     def validate_payload_msg(self, data):
         """

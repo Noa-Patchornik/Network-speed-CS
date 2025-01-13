@@ -1,13 +1,25 @@
+import socket
 import threading
 from Configuration import Configuration
 from Client.Client import Client
 from Server.Server import Server
 import time
 
+
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(("8.8.8.8", 80))
+        return s.getsockname()[0]
+    finally:
+        s.close()
+
+
 def start_server():
     # Starting the server side, using configuration file to easily change what we need
     config = Configuration().get_config()
-    server_ip = config.server_ip
+    server_ip = get_ip()
+    print(server_ip)
     tcp_port = config.tcp_port
     udp_port = config.udp_port
     #creat the server object and start it
@@ -22,14 +34,14 @@ def start_client():
 
 
 def main():
-    # Start the server in a separate thread
+    #Start the server in a separate thread
     server_thread = threading.Thread(target=start_server)
     server_thread.daemon = True
     server_thread.start()
     # set the server thread to sleep to creat the client
     time.sleep(1)
 
-    start_client()
+    #start_client()
 
 
 if __name__ == "__main__":

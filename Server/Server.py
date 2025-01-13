@@ -21,11 +21,13 @@ class Server:
         #  TCP socket
         self.tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.tcp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        #self.tcp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
         self.tcp_socket.bind((self.server_ip, self.tcp_port))
 
         #  UDP socket
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.udp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        #self.udp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
         self.udp_socket.bind((self.server_ip, self.udp_port))
 
     def start(self):
@@ -37,33 +39,43 @@ class Server:
         self.tcp_socket.listen(5)
 
         # start broadcast thread for sending offers to clients
-        broadcast_offer = OfferBroadcaster(self.udp_socket)
+        broadcast_offer = OfferBroadcaster(self.udp_socket,self.server_ip)
         broadcast_thread = threading.Thread(target=broadcast_offer.broadcast)
-        broadcast_thread.daemon = True
+        broadcast_thread.daemon = False
         broadcast_thread.start()
-        time.sleep(1)
+
 
         # one handler process all incoming UDP packets no connections needed
         udp_handler = UDPHandler(self.udp_socket)
         udp_thread = threading.Thread(target=udp_handler.listen_for_requests)
-        udp_thread.daemon = True
+        udp_thread.daemon = False
         udp_thread.start()
 
         while True:
+
             try:
+
                 self._handle_tcp_connections()
+
             except Exception as e:
                 print(self.colors.format_error(f"Error handling connections: {e}"))
 
     def _handle_tcp_connections(self):
         """Handles incoming TCP connections"""
         # waits for and accepts a new connection
-        client_socket, addr = self.tcp_socket.accept()
-        # update the user that the TCP connection succeeded
-        print(self.colors.format_success_connection(f"New TCP connection from {addr}") )
+        try:
 
-        # open thread for each TCP connection and start them
-        handler = TCPHandler(client_socket, addr)
-        handler_thread = threading.Thread(target=handler.handle)
-        handler_thread.daemon = True
-        handler_thread.start()
+            client_socket, addr = self.tcp_socket.accept()
+            # update the user that the TCP connection succeeded
+            print(self.colors.format_success_connection(f"New TCP connection from {addr}"))
+
+            # open thread for each TCP connection and start them
+            handler = TCPHandler(client_socket, addr)
+            handler_thread = threading.Thread(target=handler.handle)
+            handler_thread.daemon = False
+            handler_thread.start()
+
+        except Exception as e:
+            print(e)
+
+

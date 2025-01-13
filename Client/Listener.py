@@ -1,8 +1,5 @@
 import socket
 import struct
-
-from colorama import Fore
-
 from Colors import Colors
 from Configuration import Configuration
 
@@ -15,10 +12,11 @@ class Listener:
         self.config = Configuration().get_config()
 
     def listen_for_offer(self):
-        """listens for all offer messages"""
+        """ listens for all offer messages from servers """
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
             # use the same port
             s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            #s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
             s.bind(('', self.config.udp_port))
 
             while True:

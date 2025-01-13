@@ -9,13 +9,14 @@ class Configuration:
             #random ports one for each protocol
             'udp_port': 13117,
             'tcp_port': 23456,
+            #'tcp_port': 20000,
             #messages length
             'payload_len' : 21,
             'offer_len' : 9,
             'request_len': 13,
             'dummy_bit' : b'1', #creat data with the requested size
             'buffer_size' : 1024, #buffer size to send data
-            'server_ip' : '0.0.0.0'
+
         }
 
     def get_config(self):
