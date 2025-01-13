@@ -29,20 +29,10 @@ class TCPHandler:
 
             print(self.colors.TCP_TRANSFER + "Starting TCP file transfer...\n" + self.colors.RESET)
 
-            buffer_size = self.config.buffer_size
-            remaining = file_size
-            # the data itself doesn't matter so use the byte define in the config file
-            dummy_chunk = self.config.dummy_bit * buffer_size
+            # Send entire file at once
+            data = self.config.dummy_bit * file_size
+            self.client_socket.send(data)
 
-            # sending in chunks in order not to exceed the buffer size
-            while remaining > 0:
-                chunk_size = min(buffer_size, remaining)
-                if chunk_size == buffer_size:
-                    self.client_socket.send(dummy_chunk)
-                else:
-                    self.client_socket.send(self.config.dummy_bit * chunk_size)
-                remaining -= chunk_size
-            # update the client that the transfer completed
             print(self.colors.TCP_TRANSFER + f"TCP transfer complete for {self.addr}\n" + self.colors.RESET)
         except Exception as e:
             print(self.colors.format_error(f"Error handling client {self.addr}: {e}\n"))
