@@ -64,10 +64,10 @@ class RequestTransfer:
                 s.sendto(request, (server_ip, udp_port))
                 print(self.colors.CLIENT_STATUS + f"Sent UDP request for {file_size} bytes\n" + self.colors.RESET)
 
-                start_time = time.time()
+                thread_start_time = time.perf_counter()  # Changed from time.time()
                 received_segments = set()
                 total_segments = None
-                last_receive_time = time.time()
+                last_receive_time = time.perf_counter()  # Changed from time.time()
 
                 s.settimeout(0.1)
 
@@ -75,7 +75,7 @@ class RequestTransfer:
                 while True:
                     try:
                         data, _ = s.recvfrom(self.config.buffer_size)
-                        last_receive_time = time.time()
+                        last_receive_time = time.perf_counter()  # Changed from time.time()
 
                         # validate the msg
                         seg_num, total_segs = self.validate_payload_msg(data)
@@ -85,9 +85,8 @@ class RequestTransfer:
 
                         if total_segments is None:
                             total_segments = total_segs
-                            print(self.colors.CLIENT_STATUS + f"Expecting {total_segments} segments\n"+
+                            print(self.colors.CLIENT_STATUS + f"Expecting {total_segments} segments\n" +
                                   self.colors.RESET)
-
 
                         received_segments.add(seg_num)
                         # printing every 100 segments to console for indicating the process
@@ -96,25 +95,25 @@ class RequestTransfer:
                                   f"Received {len(received_segments)} unique segments\n" +
                                   self.colors.RESET)
 
-
                     # in case of an error
                     except socket.timeout:
                         # just to make sure not to exceed the 1.0 sec
-                        if time.time() - last_receive_time >= 1.0:
+                        if time.perf_counter() - last_receive_time >= 1.0:  # Changed from time.time()
                             break
                         continue
                     except Exception as e:
-                        print(self.colors.format_error(f"Error receiving packet: {e}\n"+self.colors.RESET))
+                        print(self.colors.format_error(f"Error receiving packet: {e}\n" + self.colors.RESET))
                         continue
 
-                duration = max(time.time() - start_time, 0.001)
+                thread_end_time = time.perf_counter()  # Changed from time.time()
+                duration = max(thread_end_time - thread_start_time, 0.001)
                 speed = (file_size * 8) / duration
                 success_rate = (len(received_segments) / total_segments * 100) if total_segments else 0
 
                 print(self.colors.format_udp_transfer(transfer_num, duration, speed, success_rate))
 
         except Exception as e:
-            print(self.colors.format_error(f"Error in UDP transfer #{transfer_num}: {e}\n"+self.colors.RESET))
+            print(self.colors.format_error(f"Error in UDP transfer #{transfer_num}: {e}\n" + self.colors.RESET))
 
     def construct_request_msg(self, file_size):
         """
