@@ -22,7 +22,7 @@ class OfferBroadcaster:
                 message = self.creat_offer_request()
                 # Send to broadcast port that client listens on
                 self.udp_socket.sendto(message, ('<broadcast>', self.config.broadcast_port))
-                print(f"Sent offer with UDP port {self.udp_port} and TCP port {self.tcp_port}")
+                print(self.colors.SERVER_STATUS+f"Sent offer with UDP port {self.udp_port} and TCP port {self.tcp_port}"+self.colors.RESET)
                 time.sleep(1)
             except Exception as e:
                 print(self.colors.format_error(f"Error broadcasting offer: {e}\n"))

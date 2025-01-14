@@ -31,15 +31,15 @@ def start_client():
 
 
 def main():
-    #Start the server in a separate thread
-    server_thread = threading.Thread(target=start_server)
-    server_thread.daemon = True
-    server_thread.start()
-    # set the server thread to sleep to creat the client
-    time.sleep(1)
+    # #Start the server in a separate thread
+    # server_thread = threading.Thread(target=start_server)
+    # server_thread.daemon = True
+    # server_thread.start()
+    # # set the server thread to sleep to creat the client
+    # time.sleep(1)
 
 
-    #start_client()
+    start_client()
 
 
 if __name__ == "__main__":

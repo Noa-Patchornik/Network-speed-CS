@@ -61,9 +61,7 @@ class Server:
         udp_thread.start()
 
         while True:
-
             try:
-
                 self._handle_tcp_connections()
 
             except Exception as e:
