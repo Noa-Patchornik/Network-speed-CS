@@ -20,8 +20,8 @@ class Server:
         # create tcp socket
         self.tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # we want to reuse the address again
-        self.tcp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        #self.tcp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+        #self.tcp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        #self.tcp_socket.setsockopt(socket.SOL_SOCKET, 1)
         #bind the tcp socket to ip and port
         # we actually tell the OS to save the combination for our program and dont let any other process to use it
         self.tcp_socket.bind((self.server_ip, 0))
@@ -29,8 +29,8 @@ class Server:
         #  UDP socket
         #create udp socket
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        #we want to reuse the address agaon
-        self.udp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        #we want to reuse the address again
+        #self.udp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         #self.udp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
         #bind udp socket to ip and port
         # we actually tell the OS to save the combination for our program and dont let any other process to use it
