@@ -83,7 +83,8 @@ class RequestTransfer:
 
                         if total_segments is None:
                             total_segments = total_segs
-                            print(f"Expecting {total_segments} segments\n")
+                            print(self.colors.CLIENT_STATUS + f"Expecting {total_segments} segments\n"+
+                                  self.colors.RESET)
 
 
                         received_segments.add(seg_num)
