@@ -12,24 +12,28 @@ class PayloadSender:
         self.config = Configuration().get_config()
 
     def send_file_udp(self, udp_socket, client_addr, file_size):
+        """
+        Sends file data via UDP in segments
+        """
         buffer_size = self.config.buffer_size
         total_segments = (file_size + buffer_size - 1) // buffer_size
-        # Send to the client each segment as a payload message
-        for segment_num in range(total_segments):
-            packet = self.construct_payload_msg(total_segments, segment_num)
-            udp_socket.sendto(packet, client_addr)
-            # update the client on the progress of the sending
-            if segment_num % 100 == 0:
-                print(
-                    self.colors.SERVER_STATUS + f"Sent segment {segment_num + 1}/{total_segments}\n" + self.colors.RESET)
 
-            time.sleep(0.001)  # Small delay to prevent flooding
+        # Send each segment as a payload message
+        for segment_num in range(total_segments):
             try:
+                # Construct and send packet
+                packet = self.construct_payload_msg(total_segments, segment_num)
                 udp_socket.sendto(packet, client_addr)
+
+                # Print progress every 100 segments
                 if segment_num % 100 == 0:
                     print(self.colors.SERVER_STATUS +
-                          f"Sent segment {segment_num + 1}/{total_segments}" + self.colors.RESET)
+                          f"Sent segment {segment_num + 1}/{total_segments}\n" +
+                          self.colors.RESET)
+
+                # Small delay to prevent network flooding
                 time.sleep(0.001)
+
             except Exception as e:
                 print(self.colors.format_error(f"Error sending segment {segment_num + 1}: {e}"))
 

@@ -11,24 +11,33 @@ from Server.UDPHandler import UDPHandler
 class Server:
     config = Configuration().get_config()
 
-    def __init__(self, server_ip, tcp_port, udp_port):
+    def __init__(self, server_ip):
 
         self.server_ip = server_ip
-        self.tcp_port = tcp_port
-        self.udp_port = udp_port
         self.colors = Colors()
 
         #  TCP socket
+        # create tcp socket
         self.tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # we want to reuse the address again
         self.tcp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         #self.tcp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-        self.tcp_socket.bind((self.server_ip, self.tcp_port))
+        #bind the tcp socket to ip and port
+        # we actually tell the OS to save the combination for our program and dont let any other process to use it
+        self.tcp_socket.bind((self.server_ip, 0))
 
         #  UDP socket
+        #create udp socket
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        #we want to reuse the address agaon
         self.udp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         #self.udp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-        self.udp_socket.bind((self.server_ip, self.udp_port))
+        #bind udp socket to ip and port
+        # we actually tell the OS to save the combination for our program and dont let any other process to use it
+        self.udp_socket.bind((self.server_ip, 0))
+
+        self.tcp_port = self.tcp_socket.getsockname()[1]
+        self.udp_port = self.udp_socket.getsockname()[1]
 
     def start(self):
         """
@@ -39,7 +48,7 @@ class Server:
         self.tcp_socket.listen(5)
 
         # start broadcast thread for sending offers to clients
-        broadcast_offer = OfferBroadcaster(self.udp_socket,self.server_ip)
+        broadcast_offer = OfferBroadcaster(self.udp_socket,self.server_ip, self.udp_port, self.tcp_port)
         broadcast_thread = threading.Thread(target=broadcast_offer.broadcast)
         broadcast_thread.daemon = False
         broadcast_thread.start()
