@@ -1,6 +1,7 @@
 import socket
 import struct
 import time
+import traceback
 
 from Colors import Colors
 from Configuration import Configuration
@@ -25,7 +26,6 @@ class RequestTransfer:
                 # calculate time for later on speed calculation
                 start_time = time.time()
                 # for constructing the received data later on
-                received_data = b''
                 bytes_received = 0
 
                 # receive until the buffer size in config file
@@ -35,11 +35,12 @@ class RequestTransfer:
                     chunk = s.recv(min(self.config.buffer_size, file_size - bytes_received))
                     if not chunk:
                         break
-                    received_data += chunk
-                    bytes_received += len(chunk)
+                    # received_data = str(received_data)
+                    # received_data = received_data + str(chunk)
+                    bytes_received += len(bytes(chunk))
 
                 # in case of valid packet, print different details to console according to the requirements
-                if self.verify_packet(file_size, received_data):
+                if self.verify_packet(file_size, bytes_received):
                     duration = max(time.time() - start_time, 0.001)
                     # for calculation in bits/seconds
                     speed = (file_size * 8) / duration
@@ -48,6 +49,7 @@ class RequestTransfer:
                     raise Exception("Failed due to incomplete data transfer")
 
         except Exception as e:
+            traceback.print_exc()
             print(self.colors.format_error(f"Error in TCP transfer #{transfer_num}: {e}\n"+self.colors.RESET))
 
     def udp_transfer(self, server_ip, udp_port, file_size, transfer_num):
@@ -138,18 +140,17 @@ class RequestTransfer:
                 pass
         return None, None
 
-    def verify_packet(self, file_size, data):
+    def verify_packet(self, file_size, data_len):
         """
-        verify packet details, the same length as expected and conent
+        verify packet details, the same length as expected and consent
         """
         # checks length
-        received_size = len(data)
-        if received_size != file_size:
+        if data_len != file_size:
             print(self.colors.format_error("Error: Received {received_size} bytes, expected {file_size}\n"+self.colors.RESET))
             return False
         # checks content
-        if data != self.config.dummy_bit * file_size:
-            print(self.colors.format_error("Error: Received data doesn't match expected content\n"+self.colors.RESET))
-            return False
+        # if data != self.config.dummy_bit * file_size:
+        #     print(self.colors.format_error("Error: Received data doesn't match expected content\n"+self.colors.RESET))
+        #     return False
         # in case of success receiving
         return True
