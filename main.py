@@ -17,13 +17,10 @@ def get_ip():
 
 def start_server():
     # Starting the server side, using configuration file to easily change what we need
-    config = Configuration().get_config()
     server_ip = get_ip()
     print(server_ip)
-    tcp_port = config.tcp_port
-    udp_port = config.udp_port
     #creat the server object and start it
-    server = Server(server_ip, tcp_port, udp_port)
+    server = Server(server_ip)
     server.start()
 
 
@@ -40,6 +37,7 @@ def main():
     server_thread.start()
     # set the server thread to sleep to creat the client
     time.sleep(1)
+
 
     #start_client()
 
