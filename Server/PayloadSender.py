@@ -1,7 +1,5 @@
 import struct
 import time
-import traceback
-
 from Colors import Colors
 from Configuration import Configuration
 
@@ -26,6 +24,7 @@ class PayloadSender:
                 # Construct and send packet
                 packet = self.construct_payload_msg(total_segments, segment_num)
                 udp_socket.sendto(packet, client_addr)
+
                 # Print progress every 100 segments
                 if segment_num % 100 == 0:
                     print(self.colors.SERVER_STATUS +
@@ -36,7 +35,6 @@ class PayloadSender:
                 time.sleep(0.001)
 
             except Exception as e:
-                traceback.print_exc()
                 print(self.colors.format_error(f"Error sending segment {segment_num + 1}: {e}"))
 
 
