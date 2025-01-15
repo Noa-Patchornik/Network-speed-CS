@@ -32,7 +32,7 @@ class TCPHandler:
 
             # Send entire file at once
             data = self.config.dummy_bit * file_size
-            self.client_socket.send(data).encode()
+            self.client_socket.send(data)
 
             print(self.colors.TCP_TRANSFER + f"TCP transfer complete for {self.addr}\n" + self.colors.RESET)
         except Exception as e:
