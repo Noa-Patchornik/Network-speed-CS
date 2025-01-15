@@ -35,7 +35,7 @@ def main():
     server_thread = threading.Thread(target=start_server)
     server_thread.daemon = True
     server_thread.start()
-    # # set the server thread to sleep to creat the client
+    # set the server thread to sleep to creat the client
     time.sleep(1)
 
 

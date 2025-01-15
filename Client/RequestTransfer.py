@@ -63,7 +63,7 @@ class RequestTransfer:
                 # send it to server
                 s.sendto(request, (server_ip, udp_port))
                 print(self.colors.CLIENT_STATUS + f"Sent UDP request for {file_size} bytes\n" + self.colors.RESET)
-
+                #computing time for statistics
                 start_time = time.time()
                 received_segments = set()
                 total_segments = None

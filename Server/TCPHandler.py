@@ -1,4 +1,6 @@
 # Server Handler.py (TCP)
+import time
+
 from Colors import Colors
 from Configuration import Configuration
 
@@ -38,4 +40,5 @@ class TCPHandler:
         except Exception as e:
             print(self.colors.format_error(f"Error handling client {self.addr}: {e}\n"))
         finally:
+            time.sleep(0.5)
             self.client_socket.close()

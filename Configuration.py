@@ -7,7 +7,7 @@ class Configuration:
             'offer_message_type': 0x2,
             'request_message_type': 0x3,
             'payload_message_type': 0x4,
-            'broadcast_port': 13117,
+            'broadcast_port': 50000,
             # messages length
             'payload_len': 21,
             'offer_len': 9,
