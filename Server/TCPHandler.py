@@ -24,6 +24,7 @@ class TCPHandler:
         """
         try:
             # received file size request from client
+            self.client_socket.settimeout(30)
             size_str = self.client_socket.recv(1024).decode().strip()
             file_size = int(size_str)
 
@@ -31,7 +32,7 @@ class TCPHandler:
 
             # Send entire file at once
             data = self.config.dummy_bit * file_size
-            self.client_socket.send(data)
+            self.client_socket.send(data).encode()
 
             print(self.colors.TCP_TRANSFER + f"TCP transfer complete for {self.addr}\n" + self.colors.RESET)
         except Exception as e:

@@ -32,7 +32,7 @@ class RequestTransfer:
 
                 while bytes_received < file_size:
                     # in case of remaining less than buffer size bytes
-                    chunk = s.recv(min(self.config.buffer_size, file_size - bytes_received))
+                    chunk = s.recv(min(self.config.buffer_size, file_size - bytes_received)).decode()
                     if not chunk:
                         break
                     # received_data = str(received_data)
