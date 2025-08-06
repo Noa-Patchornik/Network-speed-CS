@@ -2,52 +2,52 @@
 
 # Network Speed Test - Client-Server Application
 
-# Introduction
+## Introduction
 A Python-based simulation framework designed to evaluate and compare TCP and UDP performance under varying file sizes and connection loads.
 The project consists of a client-server model, where the client requests a file of configurable size, and the server transmits it via multiple parallel TCP/UDP connections.
 
 The goal is to simulate a realistic network load and analyze throughput, speed, and reliability for each transport protocol.
 
 # Features:
-# Client:
+## Client:
 Multithreaded with three distinct states:
 - Startup: Collect user parameters.
 - Looking for a server: Wait for an offer from a server.
 - Speed test: Launch multiple threads for TCP and UDP connections to transfer data.
 
-# Server:
+## Server:
 Multithreaded with threads for:
 - Broadcasting offer messages.
 - UDP supports three packet types: offer, request, and payload.
 - TCP supports standard file transfers.
 
 # File Structure
-# Server Package:
+## Server Package:
 - Server: The main server application that listens for incoming requests.
 - UDPHandler: Handles UDP requests and responses.
 - TCPHandler: Manages TCP connections.
 - PayloadSender: Responsible for sending payloads in response to UDP requests.
 - OfferBroadcaster: Periodically broadcasts UDP offer messages to clients.
 
-# Client Package:
+## Client Package:
 - Client: The main client application that interacts with the server and performs speed tests.
 - ClientHandler: Manages the client's interactions with the server.
 - Listener: Listens for incoming offer messages and handles connections.
 - RequestTransfer: Manages the actual transfer of data over both UDP and TCP.
 
 # How It Works – Protocol Flow
-# 1) Broadcast Discovery (UDP)
+### 1) Broadcast Discovery (UDP)
   - The server broadcasts an "offer" every second on a predefined port.
   - The client capture these offers.
   - When a valid offer is received, the client initiates a connection.
 
-# 2) Client Configuration Input
+### 2) Client Configuration Input
   - The user is prompted to enter:
     - File size (in units like KB, MB, Gb, etc.)
     - Number of TCP connections to open
     - Number of UDP connections to open
 
-# 3) File Transfer Begins
+### 3) File Transfer Begins
   - For each TCP connection:
     - A reliable stream is established.
     - The file is sent in chunks until fully received.
@@ -58,7 +58,7 @@ Multithreaded with threads for:
     - The server replies with multiple payload packets.
     - The client calculates the total segments received, speed, and success rate.
 
-# 4) Performance Output
+### 4) Performance Output
   - The client prints a breakdown for each connection:
   - Total time
   - Total speed (bits/sec)
