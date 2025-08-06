@@ -3,10 +3,10 @@
 # Network Speed Test - Client-Server Application
 
 # Introduction
-This project implements a client-server application designed for network speed testing. 
-It allows you to compare UDP and TCP download speeds, providing insights into how they 
-share the same network. The application supports multi-threading for both the client and 
-server, enabling simultaneous transfers using both protocols.
+A Python-based simulation framework designed to evaluate and compare TCP and UDP performance under varying file sizes and connection loads.
+The project consists of a client-server model, where the client requests a file of configurable size, and the server transmits it via multiple parallel TCP/UDP connections.
+
+The goal is to simulate a realistic network load and analyze throughput, speed, and reliability for each transport protocol.
 
 # Features:
 # Client:
@@ -34,6 +34,35 @@ Client: The main client application that interacts with the server and performs 
 ClientHandler: Manages the client's interactions with the server.
 Listener: Listens for incoming offer messages and handles connections.
 RequestTransfer: Manages the actual transfer of data over both UDP and TCP.
+
+# How It Works – Protocol Flow
+# 1) Broadcast Discovery (UDP)
+  The server broadcasts an "offer" every second on a predefined port.
+  The client capture these offers.
+  When a valid offer is received, the client initiates a connection.
+
+# 2) Client Configuration Input
+  The user is prompted to enter:
+  File size (in units like KB, MB, Gb, etc.)
+  Number of TCP connections to open
+  Number of UDP connections to open
+
+# 3) File Transfer Begins
+  - For each TCP connection:
+    A reliable stream is established.
+    The file is sent in chunks until fully received.
+    Total speed and duration are measured.
+
+  - For each UDP connection:
+    A single request packet is sent.
+    The server replies with multiple payload packets.
+    The client calculates the total segments received, speed, and success rate.
+
+# 4) Performance Output
+  The client prints a breakdown for each connection:
+  Total time
+  Total speed (bits/sec)
+  Percentage of successful packet receipt (UDP only)
 
 # Configuration
 The configuration file allows easy modification of the following parameters:
